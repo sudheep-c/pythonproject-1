@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO LIST - HOME</title>
+  <!--bootstrap-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+  <style>
+      .form-control{
+        padding: 1.375rem !important;
+
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3 class="pt-S text-center">TODO APP</h1>
+      <div class="row">
+        <h4>my day</h4>
+        <p class="text-muted">{{ now|date:"d F, Y" }}</p>
+
+        <div class="col-md-7 col-lg-7" style="height: 450px; overflow:scroll;">
+          <!--list of all the tasks for the day-->
+          {% for i in task %}
+        <div class="card m-1">
+          <div class="card-body">
+            {{i.task}}
+            <div class="text-right">
+              <a href="{% url 'mark_as_done' i.id %}" class="btn btn-success" role="button"><i class="fa fa-check" aria-hidden="true"></i> Mark as Done</a>
+              <a href="{% url 'delete_task' i.id%}" class="btn btn-danger" role="button"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+              <a href="{% url 'update_task' i.id %}" class="btn btn-primary" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> update</a>
+              
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+        <div class="col-md-5 col-lg-5">
+          <h5>completed tasks</h5>
+          <!-- list of all the task that have completed-->
+          {% for i in complete %}
+          <div class="card m-1">
+            <div class="card-body">
+              {{i.task}}
+             <span style="position: relative;float: right;">
+              <a href="{% url 'mark_as_undone' i.id %}" class="btn btn-danger">Mark as undone </a>
+             </span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-6 p-0" style="position: absolute; bottom: 50px;">
+            <!--To Do Form-->
+            <form action="{% url 'add_task' %}" method="post">
+              {% csrf_token %}
+
+              <div class="form-group">
+                <span style="display: flex;">
+                  <input type="text" name="task" class="form-control" placeholder="Add a task">
+                  <button class="btn text-white" style="width: 200px; background-color: red;">
+                    <i class="fa fa-pencil"></i> ADD
+                  </button>
+                </span>
+                
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+  
